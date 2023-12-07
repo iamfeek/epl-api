@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Team {
+  id           Int       @id @default(autoincrement())
+  name         String    @unique
+  homeFixtures Fixture[] @relation("HomeTeam")
+  awayFixtures Fixture[] @relation("AwayTeam")
+}
+
+model Fixture {
+  id           Int        @id @default(autoincrement())
+  homeTeam     Team       @relation("HomeTeam", fields: [homeTeamId], references: [id])
+  homeTeamId   Int
+  awayTeam     Team       @relation("AwayTeam", fields: [awayTeamId], references: [id])
+  awayTeamId   Int
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+  tournamentId Int
+  matchDatetime DateTime
+}
+
+model Tournament {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  fixtures Fixture[]
+}
