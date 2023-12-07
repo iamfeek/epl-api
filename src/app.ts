@@ -29,7 +29,7 @@ if (process.env.NODE_ENV !== "production") {
     );
 }
 
-const PORT = 3333;
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
     console.log(`Now listening on :${PORT}`)
