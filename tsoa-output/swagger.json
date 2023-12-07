@@ -1,0 +1,201 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"FixtureDTO": {
+				"properties": {
+					"tournament": {
+						"type": "string"
+					},
+					"matchDateTime": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"awayTeamScore": {
+						"type": "number",
+						"format": "double"
+					},
+					"homeTeamScore": {
+						"type": "number",
+						"format": "double"
+					},
+					"awayTeam": {
+						"type": "string"
+					},
+					"homeTeam": {
+						"type": "string"
+					},
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"tournament",
+					"matchDateTime",
+					"awayTeamScore",
+					"homeTeamScore",
+					"awayTeam",
+					"homeTeam",
+					"id"
+				],
+				"type": "object"
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "zuju-api",
+		"version": "1.0.0",
+		"description": "Zuju API",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {
+			"name": "Feek"
+		}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/fixtures": {
+			"get": {
+				"operationId": "ListFixturesWithPagination",
+				"responses": {
+					"200": {
+						"description": "an array of Fixtures and metadata",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"metadata": {
+											"properties": {
+												"hasNext": {
+													"type": "boolean"
+												},
+												"total": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"required": [
+												"hasNext",
+												"total"
+											],
+											"type": "object"
+										},
+										"data": {
+											"items": {
+												"$ref": "#/components/schemas/FixtureDTO"
+											},
+											"type": "array"
+										}
+									},
+									"required": [
+										"metadata",
+										"data"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "This endpoint allows the Fixtures listing page to see a list of fixtures.\nWith the limit and skip queries, consumers are able to paginate accoring to their needs.\nBecause of pagination, consumers can achieve an infinite scroll experience.\nTo know when to stop loading more, this endpoint returns `meta.hasNext: boolean` \nto realise when the pagination has ended.",
+				"security": [],
+				"parameters": [
+					{
+						"description": "How many records to return",
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"default": 10,
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "How many records to skip before returning",
+						"in": "query",
+						"name": "skip",
+						"required": false,
+						"schema": {
+							"default": 0,
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/fixtures/calendar/{month}/{year}": {
+			"get": {
+				"operationId": "ListDatesWithFixturesForMonth",
+				"responses": {
+					"200": {
+						"description": "an array of date strings formatted for display",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {
+											"items": {
+												"type": "string"
+											},
+											"type": "array"
+										}
+									},
+									"required": [
+										"data"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "This endpoint will enable consumers to power a calendar that is in month view. \nThis endpoint is also optimised with an database index on the `matchDateTime` column \nof the `Fixture` table to allow date range queries to perform better.",
+				"security": [],
+				"parameters": [
+					{
+						"description": "numerical representation of the month in question. E.g 04 for April, 12 for December",
+						"in": "path",
+						"name": "month",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "4-digit representation for the year in question. E.g 2023",
+						"in": "path",
+						"name": "year",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "displayFormat",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
@@ -18,14 +19,18 @@ model Team {
 }
 
 model Fixture {
-  id           Int        @id @default(autoincrement())
-  homeTeam     Team       @relation("HomeTeam", fields: [homeTeamId], references: [id])
-  homeTeamId   Int
-  awayTeam     Team       @relation("AwayTeam", fields: [awayTeamId], references: [id])
-  awayTeamId   Int
-  tournament   Tournament @relation(fields: [tournamentId], references: [id])
-  tournamentId Int
+  id            Int        @id @default(autoincrement())
+  homeTeam      Team       @relation("HomeTeam", fields: [homeTeamId], references: [id])
+  homeTeamId    Int
+  homeTeamScore Int?
+  awayTeam      Team       @relation("AwayTeam", fields: [awayTeamId], references: [id])
+  awayTeamId    Int
+  awayTeamScore Int?
+  tournament    Tournament @relation(fields: [tournamentId], references: [id])
+  tournamentId  Int
   matchDatetime DateTime
+
+  @@index([matchDatetime])
 }
 
 model Tournament {
