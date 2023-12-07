@@ -1,13 +1,13 @@
-import { Fixture, PrismaClient } from '@prisma/client'
+import { Fixture, Prisma, PrismaClient } from '@prisma/client'
 import { inject, injectable } from 'tsyringe'
-import { FixtureDTO, PaginationOptions } from '../shared/types'
+import { FixtureDTO, FindFixturesOptions } from '../shared/types'
+import { startOfDay } from 'date-fns'
 
 export interface IFixturesRepository {
-    paginate(options: PaginationOptions): Promise<FixtureDTO[]>
+    find(options: FindFixturesOptions): Promise<FixtureDTO[]>
     betweenDatesInclusive(startDate: Date, endDate: Date): Promise<Fixture[]>
     allCount(): Promise<number>
 }
-
 
 @injectable()
 class FixturesRepository implements IFixturesRepository {
@@ -16,9 +16,15 @@ class FixturesRepository implements IFixturesRepository {
         private prismaClient: PrismaClient
     ) { }
 
-    async paginate({ skip, limit }: PaginationOptions) {
+    async find({ skip, limit, fromDate }: FindFixturesOptions) {
         this.prismaClient.$connect()
+
         const fixtures = await this.prismaClient.fixture.findMany({
+            where: {
+                matchDatetime: {
+                    gte: startOfDay(fromDate)
+                }
+            },
             skip,
             take: limit,
             select: {
@@ -45,7 +51,7 @@ class FixturesRepository implements IFixturesRepository {
             orderBy: {
                 matchDatetime: "asc"
             }
-        });
+        })
         this.prismaClient.$disconnect()
 
         return fixtures.map(fixture => {

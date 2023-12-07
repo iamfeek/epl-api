@@ -33,6 +33,7 @@ export function RegisterRoutes(router: KoaRouter) {
             const args = {
                     limit: {"default":10,"in":"query","name":"limit","dataType":"double"},
                     skip: {"default":0,"in":"query","name":"skip","dataType":"double"},
+                    fromDate: {"in":"query","name":"fromDate","dataType":"string"},
             };
 
             let validatedArgs: any[] = [];

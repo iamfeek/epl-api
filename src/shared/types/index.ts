@@ -1,4 +1,5 @@
-export type PaginationOptions = {
+export type FindFixturesOptions = {
+    fromDate: Date;
     skip: number;
     limit: number;
 }

@@ -18,9 +18,9 @@ export class FixturesService {
         }
     }
 
-    async getAllWithLimitAndSkip(limit: number, skip: number) {
+    async getAllWithLimitAndSkip(limit: number, skip: number, fromDate = new Date()) {
         try {
-            return await this.repo.paginate({ limit, skip })
+            return await this.repo.find({ limit, skip, fromDate })
         } catch (e: any) {
             throw new Error(`getAllWithLimitAndSkip( ${e.message}`)
         }

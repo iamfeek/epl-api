@@ -1,6 +1,7 @@
 import { Controller, Get, Path, Query, Route } from "tsoa";
 import { container } from "tsyringe";
 import { FixturesService } from "../services/fixtures.services";
+import { sanitizeIncomingDate } from "../shared/utils/date-sanitizers";
 
 @Route("fixtures")
 export class FixturesController extends Controller {
@@ -12,16 +13,20 @@ export class FixturesController extends Controller {
      * to realise when the pagination has ended.
      * @param limit How many records to return
      * @param skip How many records to skip before returning 
+     * @param fromDate The starting date fixtures records will be looked up from. Format dd/MM/yyyy E.g 23/11/2023
      * @returns an array of FixtureDTO and metadata
      */
     @Get()
     public async listFixturesWithPagination(
         @Query() limit = 10,
         @Query() skip = 0,
+        @Query() fromDate?: string
     ) {
+        const startDate = fromDate ? sanitizeIncomingDate(fromDate) : new Date()
         try {
             const service = container.resolve(FixturesService)
-            const fixtures = await service.getAllWithLimitAndSkip(Number(limit), Number(skip))
+            const fixtures = await service.getAllWithLimitAndSkip(Number(limit), Number(skip), startDate)
+
             const allCountOfFixtures = await service.getCountOfAllFixtures();
 
             return {

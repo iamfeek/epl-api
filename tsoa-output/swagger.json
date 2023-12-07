@@ -128,6 +128,15 @@
 							"format": "double",
 							"type": "number"
 						}
+					},
+					{
+						"description": "The starting date fixtures records will be looked up from. Format dd/MM/yyyy E.g 23/11/2023",
+						"in": "query",
+						"name": "fromDate",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
 					}
 				]
 			}
