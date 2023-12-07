@@ -1,5 +1,26 @@
 # EPL API
 
+## Running locally
+### Environment Variables
+`DATABASE_URL` -> is a private variable that I have prepared for you on the sides.
+
+Run `cp .env.example .env` and hydrate the `DATABASE_URL` field accordingly.
+
+### Prisma
+If you are using the DATABASE_URL I provided, you only have to run `npx prisma generate`.
+
+If you are running your own fresh DB instance, you have to do `npx prisma db push` which will seed and generate the database accordingly.
+
+### Running the application
+- `npm install`
+- `npm run dev`
+
+Project runs at port 3333 by default -- feel free to change it.
+
+## Documentations
+I am using TSOA to generate my routes and using their decorators to codegen OpenAPI-spec docs.
+`swagger.json` is produced and hosted on `/docs` in all environments except `production`.
+
 ## Database
 
 For this project, we are powered by Aiven, a database provider that has a free tier.

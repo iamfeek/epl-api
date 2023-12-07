@@ -104,7 +104,7 @@
 						}
 					}
 				},
-				"description": "This endpoint allows the Fixtures listing page to see a list of fixtures.\nWith the limit and skip queries, consumers are able to paginate accoring to their needs.\nBecause of pagination, consumers can achieve an infinite scroll experience.\nTo know when to stop loading more, this endpoint returns `meta.hasNext: boolean` \nto realise when the pagination has ended.",
+				"description": "This endpoint allows the Fixtures listing page to see a list of fixtures.\r\nWith the limit and skip queries, consumers are able to paginate accoring to their needs.\r\nBecause of pagination, consumers can achieve an infinite scroll experience.\r\nTo know when to stop loading more, this endpoint returns `meta.hasNext: boolean` \r\nto realise when the pagination has ended.",
 				"security": [],
 				"parameters": [
 					{
@@ -167,7 +167,7 @@
 						}
 					}
 				},
-				"description": "This endpoint will enable consumers to power a calendar that is in month view. \nThis endpoint is also optimised with an database index on the `matchDateTime` column \nof the `Fixture` table to allow date range queries to perform better.",
+				"description": "This endpoint will enable consumers to power a calendar that is in month view. \r\nThis endpoint is also optimised with an database index on the `matchDateTime` column \r\nof the `Fixture` table to allow date range queries to perform better.",
 				"security": [],
 				"parameters": [
 					{
