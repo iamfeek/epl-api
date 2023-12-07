@@ -12,7 +12,7 @@ export class FixturesController extends Controller {
      * to realise when the pagination has ended.
      * @param limit How many records to return
      * @param skip How many records to skip before returning 
-     * @returns an array of Fixtures and metadata
+     * @returns an array of FixtureDTO and metadata
      */
     @Get()
     public async listFixturesWithPagination(
