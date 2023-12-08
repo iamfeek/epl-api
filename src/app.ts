@@ -2,12 +2,11 @@ import Router from '@koa/router';
 import Koa from 'koa';
 import responseTime from 'koa-response-time';
 import "reflect-metadata";
-import './shared/container';
 import { RegisterRoutes } from "../tsoa-output/routes";
+import './shared/container';
 
 import { koaSwagger } from 'koa2-swagger-ui';
 
-import { FixturesController } from "./controllers/fixtures.controller";
 import path from 'path';
 
 const app = new Koa();
